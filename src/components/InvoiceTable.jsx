@@ -1,14 +1,14 @@
 
+import { TablePagination } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { TablePagination } from '@mui/material';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import '../assets/styles/invoice-table.scss';
 
 InvoiceTable.propTypes = {
     headers: PropTypes.array.isRequired,
@@ -16,13 +16,20 @@ InvoiceTable.propTypes = {
 }
 
 export default function InvoiceTable({ headers, rows }) {
-    const [page, setPage] = useState(0);
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
+    const [pg, setpg] = useState(0);
+    const [rpg, setrpg] = useState(5);
+
+    function handleChangePage(event, newpage) {
+        setpg(newpage);
+    }
+
+    function handleChangeRowsPerPage(event) {
+        setrpg(parseInt(event.target.value, 10));
+        setpg(0);
+    }
     return (
         <>
-            <TableContainer className='fixedhead' component={Paper}>
+            <TableContainer className='fix-table-head' component="div">
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -30,7 +37,7 @@ export default function InvoiceTable({ headers, rows }) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row, i) => (
+                        {rows.slice(pg * rpg, pg * rpg + rpg).map((row, i) => (
                             <TableRow
                                 key={i}
                             >
@@ -41,15 +48,16 @@ export default function InvoiceTable({ headers, rows }) {
                         ))}
                     </TableBody>
                 </Table>
-                <TablePagination
-                    rowsPerPageOptions={[]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={10}
-                    page={page}
-                    onPageChange={handleChangePage}
-                />
             </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={rows.length}
+                rowsPerPage={rpg}
+                page={pg}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </>
     );
 }

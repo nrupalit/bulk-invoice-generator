@@ -1,8 +1,8 @@
 import papaparse from "papaparse";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import '../assets/styles/preview.scss';
 import InvoiceTable from "./InvoiceTable";
+import { Button } from "@mui/material";
 
 export default function Preview() {
     const file = useSelector(state => state.file.file);
@@ -19,7 +19,9 @@ export default function Preview() {
     }, []);
     return (
         <>
+            <h1>Edited CSV data</h1>
             {!!values && <InvoiceTable headers={header} rows={values} />}
+            <Button>Retry</Button>
         </>
     )
 }
