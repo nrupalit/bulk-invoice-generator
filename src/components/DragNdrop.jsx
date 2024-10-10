@@ -1,47 +1,64 @@
 import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import "../assets/styles/drag-drop.scss";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fileActions } from "../redux/actions";
+import { ROUTES } from "../common/routes";
 
-// eslint-disable-next-line react/prop-types
-function DragNdrop({ onFilesSelected, width, height, }) {
-    const [files, setFiles] = useState([]);
+import PropTypes from 'prop-types';
 
-    const handleFileChange = (event) => {
-        const selectedFiles = event.target.files;
-        if (selectedFiles && selectedFiles.length > 0) {
-            const newFiles = Array.from(selectedFiles);
-            setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-        }
-    };
-    const handleDrop = (event) => {
-        event.preventDefault();
-        const droppedFiles = event.dataTransfer.files;
-        if (droppedFiles.length > 0) {
-            const newFiles = Array.from(droppedFiles);
-            setFiles((prevFiles) => [...prevFiles, ...newFiles]);
-        }
-    };
+DragNdrop.propTypes = {
+    width: PropTypes.string.isRequired,
+    height: PropTypes.string.isRequired
+}
 
-    const handleRemoveFile = (index) => {
-        setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-    };
+function DragNdrop({ width, height }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [file, setFile] = useState(undefined);
 
     useEffect(() => {
-        onFilesSelected(files);
-        // setFiles(initalValue);
-    }, [files, onFilesSelected]);
+        setFile(undefined);
+    }, [file]);
+
+    function handleFileChange(event) {
+        const selectedFiles = event.target.files;
+        const selectFile = Array.from(selectedFiles);
+        if (selectFile.length > 0) {
+            handleSelectedFile(selectFile)
+        }
+    }
+
+    function handleDropFile(event) {
+        event.preventDefault();
+        console.log(event);
+        const droppedFiles = event.dataTransfer.files;
+        if (droppedFiles.length > 0) {
+            handleSelectedFile(droppedFiles)
+        }
+    }
+
+    function handleSelectedFile(file) {
+        setFile(file)
+        dispatch(fileActions.addFile(file[0]));
+        navigate(ROUTES.PREVIEW)
+    }
+
+    function handleRemoveFile() {
+        setFile(undefined)
+    }
 
     return (
         <section className="drag-drop" style={{ width: width, height: height }}>
             <div
-                className={`document-uploader ${files.length > 0 ? "upload-box active" : "upload-box"
+                className={`document-uploader ${file?.length > 0 ? "upload-box active" : "upload-box"
                     }`}
-                onDrop={handleDrop}
+                onDrop={handleDropFile}
                 onDragOver={(event) => event.preventDefault()}
             >
                 <>
                     <div className="upload-info">
-                        {/* <AiOutlineCloudUpload /> */}
                         <div>
                             <p>Drag and drop your files here</p>
                             <p>
@@ -50,27 +67,27 @@ function DragNdrop({ onFilesSelected, width, height, }) {
                             </p>
                         </div>
                     </div>
-                    <input
-                        type="file"
-                        hidden
-                        id="browse"
-                        onChange={handleFileChange}
-                        accept=".pdf,.docx,.pptx,.txt,.xlsx"
-                        multiple
-                    />
-                    <label htmlFor="browse" className="browse-btn">
-                        Browse files
-                    </label>
+                    <Button
+                        variant="contained"
+                        component="label"
+                    >
+                        Upload File
+                        <input
+                            type="file"
+                            onChange={handleFileChange} accept={".csv"}
+                            value={file}
+                            hidden
+                        />
+                    </Button>
                 </>
 
-                {files.length > 0 && (
+                {file?.length > 0 && (
                     <div className="file-list">
                         <div className="file-list__container">
-                            {files.map((file, index) => (
+                            {file?.map((file, index) => (
                                 <div className="file-item" key={index}>
                                     <div className="file-info">
                                         <p>{file.name}</p>
-                                        {/* <p>{file.type}</p> */}
                                     </div>
                                     <div className="file-actions">
                                         <Button onClick={() => handleRemoveFile(index)} />
@@ -81,12 +98,9 @@ function DragNdrop({ onFilesSelected, width, height, }) {
                     </div>
                 )}
 
-                {files.length > 0 && (
+                {file?.length > 0 && (
                     <div className="success-file">
-                        {/* <AiOutlineCheckCircle
-                            style={{ color: "#6DC24B", marginRight: 1 }}
-                        /> */}
-                        <p>{files.length} file(s) selected</p>
+                        <p>{file?.length} file(s) selected</p>
                     </div>
                 )}
             </div>

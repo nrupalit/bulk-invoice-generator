@@ -8,16 +8,19 @@
     
     table {
         border-collapse: collapse;
-        width: 100%;
     }
     
     th,
     td {
         padding: 8px 15px;
         border: 2px solid #327894;
+        color: white;
     }
     
     th {
         background: #327894;
     }
+}
+.table-pagination {
+    color: white !important;
 }

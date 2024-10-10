@@ -6,9 +6,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 import '../assets/styles/invoice-table.scss';
+import PropTypes from 'prop-types';
 
 InvoiceTable.propTypes = {
     headers: PropTypes.array.isRequired,
@@ -50,6 +50,7 @@ export default function InvoiceTable({ headers, rows }) {
                 </Table>
             </TableContainer>
             <TablePagination
+                className='table-pagination'
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
                 count={rows.length}
