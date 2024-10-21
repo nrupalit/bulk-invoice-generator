@@ -7,6 +7,8 @@ import { METHOD, URL } from "../common/apiConst";
 import { ROUTES } from "../common/routes";
 import InvoiceTable from "./InvoiceTable";
 import apiCall from "../common/apiCall";
+import ReplayOutlinedIcon from '@mui/icons-material/ReplayOutlined';
+import '../assets/styles/preview.scss';
 
 export default function Preview() {
     const file = useSelector(state => state.file.file);
@@ -41,11 +43,12 @@ export default function Preview() {
             });
     }
     return (
-        <>
+        <section className="preview-container">
             <h1>Edited CSV data</h1>
             {!!values && <InvoiceTable headers={header} rows={values} />}
-            <Button onClick={navigateToHome}>Retry</Button>
-            <Button onClick={handleSubmit}>Submit</Button>
-        </>
+            <section className="divider"></section>
+            <Button className="custom-button" onClick={navigateToHome}><ReplayOutlinedIcon />Retry</Button>
+            <Button className="custom-button" onClick={handleSubmit}>Submit</Button>
+        </section>
     )
 }

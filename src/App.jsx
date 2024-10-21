@@ -3,6 +3,7 @@ import RootLayout from "./routes/RootLayout";
 import Dashboard from "./components/Dashboard";
 import ErrorPage from "./components/ErrorPage";
 import Preview from "./components/Preview";
+import './assets/styles/global.scss'
 
 const router = createBrowserRouter([
   {

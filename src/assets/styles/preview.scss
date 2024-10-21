@@ -1,0 +1,22 @@
+.preview-container {
+    h1 {
+        display: flex;
+        justify-content: center;
+    }
+    .divider {
+        width: 100vw;
+        border: 0.5px solid #ffff;
+    }
+
+    button {
+        color: #ffff;
+        border: 1px solid;
+        padding: 10px;
+        margin: 10px;
+    }
+
+    button:hover {
+        color: #000000 !important;
+        background: #ffffff;
+    }
+}

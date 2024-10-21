@@ -60,10 +60,9 @@ function DragNdrop({ width, height }) {
                 <>
                     <div className="upload-info">
                         <div>
-                            <p>Drag and drop your files here</p>
+                            <p>Drag and drop your file here</p>
                             <p>
-                                Limit 15MB per file. Supported files: .PDF, .DOCX, .PPTX, .TXT,
-                                .XLSX
+                                Limit 15MB and Supported files: .CSV
                             </p>
                         </div>
                     </div>
