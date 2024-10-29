@@ -35,7 +35,7 @@ export default function Preview() {
             data: values
         }
         apiCall(URL.GENERATE_PDF, METHOD.POST, data).then(() => {
-            alert("File is successfully created in ", data.id)
+            alert("File is successfully created in ", id.current)
         })
             .catch((err) => {
                 console.error(err);
